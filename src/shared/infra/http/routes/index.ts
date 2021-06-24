@@ -1,9 +1,8 @@
 import { Router } from 'express';
+import usersRouter from '../../../../modules/users/infra/http/routes/users.routes';
 
 const routes = Router();
 
-routes.use('/', (request, response) => {
-    return response.json({message: 'Money Manager'})
-});
+routes.use('/users', usersRouter)
 
 export default routes;
