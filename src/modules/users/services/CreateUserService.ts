@@ -2,6 +2,7 @@ import { inject, injectable } from "tsyringe";
 import User from "../infra/typeorm/entities/User";
 import IHashProvider from "../providers/HashProvider/models/IHashProvider";
 import IUsersRepository from "../repositories/IUsersRepository";
+import AppError from "../../../shared/errors/AppError";
 
 interface IRequest {
     name: string;
@@ -23,7 +24,7 @@ class CreateUserService {
         const userExtists = await this.userRepository.findByUserName(user_name);
 
         if (userExtists) {
-            throw new Error('Usuário já cadastrado.');
+            throw new AppError('Usuário já cadastrado');
         }
 
         const hashPassword = await this.hashProvider.generateHash(password);
