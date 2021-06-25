@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import CreateUserService from "../../../services/CreateUserService";
 import { container } from "tsyringe";
+import OmitPasswordDTO from "../../../dtos/OmitPasswordDTO";
 
 export default class UsersController {
     public async create(request: Request, response: Response): Promise<Response> {
@@ -14,6 +15,8 @@ export default class UsersController {
             password
         });
 
-        return response.status(201).json(user);
+        const userOmitPassword = OmitPasswordDTO.toDTO(user)
+
+        return response.status(201).json(userOmitPassword);
     }
 }
