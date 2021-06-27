@@ -3,6 +3,7 @@ import { container } from "tsyringe";
 import CreateUserService from "../../../services/CreateUserService";
 import OmitPasswordDTO from "../../../dtos/OmitPasswordDTO";
 import ShowUserService from "../../../services/ShowUserService";
+import DeleteUserService from "../../../services/DeleteUserService";
 
 export default class UsersController {
     public async create(request: Request, response: Response): Promise<Response> {
@@ -31,5 +32,15 @@ export default class UsersController {
         const userOmitPassword = OmitPasswordDTO.toDTO(user)
 
         return response.status(200).json(userOmitPassword);
+    }
+
+    public async delete(request: Request, response: Response): Promise<Response> {
+        const { id } = request.params;
+
+        const showUser = container.resolve(DeleteUserService);
+
+        await showUser.execute({ id });
+
+        return response.status(204).send();
     }
 }
